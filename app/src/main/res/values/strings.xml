@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">DreamSub Anime</string>
+    <string name="home_title">Home</string>
+    <string name="search_anime">Search Anime</string>
+    <string name="cd_open_navigation_drawer">Open Navigation Drawer</string>
+    <string name="cd_search">Search</string>
+    <string name="home_tap_to_load_content">Tap to reload content</string>
+    <string name="episodes_count">Total Episodes %d</string>
+    <string name="retry">Retry</string>
+    <string name="cancel_search">Cancel Search</string>
+    <string name="back">Back</string>
+    <string name="no_title">No English Title</string>
+    <string name="no_description">No Description</string>
+    <string name="genres">"Genres:  "</string>
+    <string name="season_year">"Season Year:  "</string>
+    <string name="status">"Status:  "</string>
+    <string name="total_episodes">"Total Episodes:  "</string>
+    <string name="description">"Description: "</string>
+</resources>

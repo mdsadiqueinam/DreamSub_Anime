@@ -1,0 +1,4 @@
+<resources>
+    <string name="back_button">Back button</string>
+    <string name="one_peice_url"><![CDATA[https://api.aniapi.com/v1/proxy/https%3a%2f%2fcdn2.dreamsub.cc%2ffl%2fone-piece%2f998%2fSUB_ITA%2f720p%3ftoken%3drbMSO8qU%24iF%24KjqCfFPF8dUYkIdreamsubaQb1aQjNHh0L8D3I%24OwO%24/dreamsub/?host=cdn.dreamsub.cc&referrer=https%3a%2f%2fdreamsub.cc%2fanime%2fone-piece%2f998]]></string>
+</resources>
