@@ -1,4 +1,4 @@
 # DreamSub_Anime
 
 ## App Demo
-![gif](appdemo.gif)
+![mp4](appdemo.gif | width=100)
