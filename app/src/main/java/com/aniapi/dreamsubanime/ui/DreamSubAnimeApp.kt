@@ -1,5 +1,6 @@
 package com.aniapi.dreamsubanime.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
@@ -21,6 +22,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
+@ExperimentalFoundationApi
 @ExperimentalCoilApi
 @ExperimentalCoroutinesApi
 @ExperimentalPagingApi

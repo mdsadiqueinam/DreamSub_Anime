@@ -81,6 +81,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
     implementation "com.google.accompanist:accompanist-insets:$accompanist_version"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-flowlayout:0.20.2"
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$corotinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$corotinesVersion"

@@ -1,5 +1,6 @@
 package com.aniapi.dreamsubanime.ui.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -26,6 +27,7 @@ object MainDestinations {
 }
 
 
+@ExperimentalFoundationApi
 @ExperimentalCoilApi
 @ExperimentalPagingApi
 @ExperimentalCoroutinesApi

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.core.view.WindowCompat
 import androidx.paging.ExperimentalPagingApi
 import coil.annotation.ExperimentalCoilApi
@@ -12,7 +13,7 @@ import com.aniapi.videoplayer.PlayerActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-
+@ExperimentalFoundationApi
 @ExperimentalCoilApi
 @ExperimentalCoroutinesApi
 @ExperimentalPagingApi

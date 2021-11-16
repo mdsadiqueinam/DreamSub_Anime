@@ -1,10 +1,11 @@
 package com.aniapi.dreamsubanime.ui.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -21,16 +22,22 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.paging.ExperimentalPagingApi
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import coil.compose.rememberImagePainter
 import com.aniapi.dreamsubanime.R
 import com.aniapi.dreamsubanime.ui.theme.DreamSubAnimeTheme
 import com.aniapi.dreamsubanime.viewModels.AnimeViewModel
 import com.dreamSubAnime.api.models.entities.*
+import com.google.accompanist.flowlayout.FlowColumn
+import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.insets.systemBarsPadding
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
+@ExperimentalFoundationApi
 @ExperimentalPagingApi
 @Composable
 fun AnimeScreen(
@@ -101,6 +108,7 @@ fun AnimeScreen(
 }
 
 
+@ExperimentalFoundationApi
 @Composable
 private fun LoadingEmptyOrContent(
     loading: Boolean,
@@ -129,6 +137,7 @@ private fun LoadingEmptyOrContent(
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
 fun AnimeScreen(
     anime: Anime,
@@ -147,19 +156,25 @@ fun AnimeScreen(
             placeholder(R.drawable.ic_broken_image)
         }
     )
-    val descriptions: String = if (anime.descriptions?.english == null || anime.descriptions?.english == ""){
-        stringResource(R.string.no_description)
-    } else {
-        val des = anime.descriptions!!.english!!
-        des.trim('<')
-    }
+    val descriptions: String =
+        if (anime.descriptions?.english == null || anime.descriptions?.english == "") {
+            stringResource(R.string.no_description)
+        } else {
+            val des = anime.descriptions!!.english!!
+            des.trim('<')
+        }
     val genres: String = if (anime.genres?.isNotEmpty() == true) {
-        anime.genres.toString().trim('[',']')
+        anime.genres.toString().trim('[', ']')
     } else {
         ""
     }
+    val totalEpisodes = anime.episodesCount ?: 0
 
-    Column(Modifier.verticalScroll(scrollState)) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
+    ) {
         Box(
             modifier = Modifier.height(200.dp)
         ) {
@@ -216,12 +231,23 @@ fun AnimeScreen(
                     withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
                         append(stringResource(R.string.total_episodes))
                     }
-                    append(anime.episodesCount?.toString() ?: "0")
+                    append(totalEpisodes.toString())
                 }
             )
-            Button(onClick = { startPlayer(anime.id!!, 1, title) }) {
-                Text(text = "Episode Number 1")
+            Text(text = "Episodes: ", fontWeight = FontWeight.SemiBold)
+            Box {
+                FlowRow(
+                    mainAxisSpacing = 5.dp,
+                    crossAxisSpacing = 5.dp
+                ) {
+                    for(index in totalEpisodes downTo 1) {
+                        EpisodeButton(episodeNumber = index) {
+                            startPlayer(anime.id!!, index, title)
+                        }
+                    }
+                }
             }
+            Spacer(modifier = Modifier.size(10.dp))
         }
     }
 }
@@ -241,6 +267,8 @@ private fun FullEmptyScreen(message: String) {
     }
 }
 
+
+@ExperimentalFoundationApi
 @Preview
 @Composable
 fun AnimeScreenPreview() {
@@ -256,23 +284,48 @@ fun AnimeScreenPreview() {
         episodeDuration = 24,
         episodesCount = 18,
         format = Format.TV,
-        genres = listOf("action","drama", "demon"),
+        genres = listOf("action", "drama", "demon"),
         malId = 25,
         score = 200,
         seasonPeriod = SeasonPeriod.WINTER,
         seasonYear = 2020,
         startDate = null,
         status = Status.RELEASING,
-        descriptions = Descriptions(english = "In 1973, the invasion of an extra terrestrial life form, the BETA, began a war that has driven mankind to the brink of extinction. In an attempt to counter the BETA's overwhelming strength in numbers, mankind has developed the humanoid weapons known as TSFs, deploying them on the front lines of their Anti-BETA War all across the globe. However, mankind still lost the majority of Eurasia to the superior numbers of the marching BETA. For nearly 30 years, mankind has remained bogged down in its struggle against the BETA with no hope in sight.", italian = null),
+        descriptions = Descriptions(
+            english = "In 1973, the invasion of an extra terrestrial life form, the BETA, began a war that has driven mankind to the brink of extinction. In an attempt to counter the BETA's overwhelming strength in numbers, mankind has developed the humanoid weapons known as TSFs, deploying them on the front lines of their Anti-BETA War all across the globe. However, mankind still lost the majority of Eurasia to the superior numbers of the marching BETA. For nearly 30 years, mankind has remained bogged down in its struggle against the BETA with no hope in sight.",
+            italian = null
+        ),
         titles = Titles(english = "Demon Slayer", null, null),
         message = null
     )
     DreamSubAnimeTheme {
-        AnimeScreen(anime = anime,
+        AnimeScreen(
+            anime = anime,
             scaffoldState = scaffoldState,
             scrollState = scrollState
         ) { _, _, _ ->
 
         }
     }
+}
+
+@Composable
+fun EpisodeButton(episodeNumber: Int, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        contentPadding = PaddingValues(horizontal = 25.dp, vertical = 20.dp),
+        shape = RoundedCornerShape(18.dp),
+        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary)
+    ) {
+        Text(
+            text = episodeNumber.toString(),
+            fontSize = 20.sp
+        )
+    }
+}
+
+@Preview
+@Composable
+fun EpisodeButtonPreview() {
+    EpisodeButton(episodeNumber = 1, onClick = {})
 }
